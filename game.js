@@ -5,6 +5,10 @@ const ctx = cvs.getContext("2d");
 //Game VARS AND CONSTS
 let frames = 0;
 
+//LOAD SPRITE IMAGE
+const sprite = new Image();
+sprite.src = "img/sprite.png"
+
 //DRAW
 function draw(){
     ctx.fillStyle="#70c5ce";
