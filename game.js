@@ -19,7 +19,8 @@ const bg = {
     y: cvs.height -226,
 
     draw: function (){
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.y, this.w, this.h);
+        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+
     }
 }
 
@@ -27,6 +28,8 @@ const bg = {
 function draw(){
     ctx.fillStyle="#70c5ce";
     ctx.fillRect(0,0,cvs.clientWidth, cvs.height);
+
+    bg.draw();
 
 }
 
