@@ -7,10 +7,22 @@ let frames = 0;
 
 //DRAW
 function draw(){
+    ctx.fillStyle="#70c5ce";
+    ctx.fillRect(0,0,cvs.clientWidth, cvs.height);
 
 }
 
 //UPDATE
 function update(){
-    
+
 }
+
+//Loop
+function loop(){
+    update();
+    draw();
+    frames++;
+
+    requestAnimationFrame(loop);
+}
+loop();
