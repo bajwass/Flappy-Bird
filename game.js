@@ -64,6 +64,10 @@ const bird = {
 
     frame: 0,
 
+    gravity : 0.25,
+    jump: 4.6,
+    speed: 0,
+
     draw: function (){
         let bird = this.animation[this.frame];
         ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
@@ -71,6 +75,7 @@ const bird = {
     },
 
     flap : function(){
+        this.speed = - this.jump;
 
     },
     update : function(){
@@ -80,6 +85,21 @@ const bird = {
         this.frame += frames%this.period == 0 ? 1:0;
         //Frame goes from 0 to 4, the back to 0 again
         this.frame = this.frame%this.animation.length;
+
+        if(state.current == state.getReady){
+            this.y = 150;
+
+        }else{
+            this.speed += this.gravity;
+            this.y += this.speed;
+
+            if(this.y + this.h/2 >= cvs.height -fg.h){
+                this.y = cvs.height - fg.h - this.h/2;
+                if(state.current == state.game){
+                    state.current = state.over;
+                }
+            }
+        }
 
     }
 
