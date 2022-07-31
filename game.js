@@ -11,6 +11,14 @@ const DEGREE = Math.PI/180;
 const sprite = new Image();
 sprite.src = "img/sprite.png"
 
+//START BUTTON
+const startbtn ={
+    x: 120,
+    y: 263,
+    w: 83,
+    h: 29,
+}
+
 //CONTROL GAME
 const state = {
     current: 0,
@@ -27,7 +35,17 @@ cvs.addEventListener("click", function(evt) {
             bird.flap();
             break;
         case state.over:
-            state.current = state.getReady;
+            let rect = cvs.getBoundingClientRect();
+            let clickX = evt.clientX - rect.left;
+            let clickY = evt.clientY - rect.top;
+
+            //Check if we click on the start button
+            if(clickX >= startbtn.x && clickX <= startbtn.x + startbtn.w && clickY >= startbtn.y && clickY <= startbtn.y + startbtn.h ){
+                state.current = state.getReady;
+                pipes.reset();
+                bird.speedReset();
+                score.reset();
+            }
             break;
     }
 });
@@ -116,8 +134,15 @@ const pipes ={
             //if pipes go beyond canvas, delete from the array
             if(p.x + this.w <=0){
                 this.position.shift();
+                score.value +=1;
+
+                score.best = Math.max(score.value, score.best);
+                localStorage.setItem("best", score.best);
             }
         }
+    },
+    reset : function(){
+        this.position = [];
     }
 }
 //BIRD
@@ -191,6 +216,9 @@ const bird = {
             }
         }
 
+    },
+    speedReset: function(){
+        this.speed = 0;
     }
 
 
@@ -257,6 +285,37 @@ const gameOver = {
 
     }
 }
+//SCORE
+const score = {
+    best: parseInt(localStorage.getItem("best")) || 0,
+    value: 0,
+
+    draw : function(){
+        ctx.fillyStyle = "#FFF";
+        ctx.srokeStyle = "#000";
+
+        if(state.current == state.game){
+            ctx.lineWidth = 2;
+            ctx.font = "35px";
+            ctx.fillText(this.value, cvs.width/2, 50);
+            ctx.strokeText(this.value,cvs.width/2, 50);
+
+        }else if(state.current == state.over){
+            //SCORE VALUE
+            ctx.font = "25px Teko";
+            ctx.fillText(this.value, 225, 186);
+            ctx.strokeText(this.value,225, 186);
+            //BEST SCORE
+            ctx.fillText(this.best, 225, 228);
+            ctx.strokeText(this.best,225, 228);
+
+        }
+
+    },
+    reset : function(){
+        this.value = 0;
+    }
+}
 
 //DRAW
 function draw(){
@@ -269,6 +328,7 @@ function draw(){
     bird.draw();
     getReady.draw();
     gameOver.draw();
+    score.draw();
 
 }
 
