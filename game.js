@@ -50,6 +50,64 @@ const bg = {
 
     }
 }
+//PIPES
+const pipes ={
+    position : [
+
+    ],
+
+    top : {
+        sX: 553,
+        sY: 0
+    },
+    bottom : {
+        sX: 502,
+        sY: 0
+    },
+
+    w: 53,
+    h: 400,
+    gap: 85,
+    maxYPos: -150,
+    dx: 2,
+
+    draw: function(){
+        for(i = 0; i< this.position.length; i++){
+            let p = this.position[i];
+
+            let topYPos = p.y;
+            let bottomYPos = p.y + this.h + this.gap;
+
+            //top pipe
+            ctx.drawImage(sprite, this.top.sX, this.top.sY, this.w, this.h, p.x, topYPos, this.w, this.h);
+
+            //bottom pipe
+            ctx.drawImage(sprite, this.bottom.sX, this.bottom.sY, this.w, this.h, p.x, bottomYPos, this.w, this.h);
+        }
+    },
+
+    update: function(){
+        if(state.current !== state.game) return;
+
+        if(frames%200 ==0){ // width between pipes
+            this.position.push({
+                x: cvs.width,
+                y: this.maxYPos * (Math.random() + 1)
+
+            });
+        }
+        for(let i = 0; i < this.position.length; i++){
+            let p = this.position[i];
+
+            p.x -= this.dx;
+
+            //if pipes go beyond canvas, delete from the array
+            if(p.x + this.w <=0){
+                this.position.shift();
+            }
+        }
+    }
+}
 //BIRD
 const bird = {
     animation : [
@@ -192,6 +250,7 @@ function draw(){
     ctx.fillRect(0,0,cvs.clientWidth, cvs.height);
 
     bg.draw();
+    pipes.draw();
     fg.draw();
     bird.draw();
     getReady.draw();
@@ -203,6 +262,7 @@ function draw(){
 function update(){
     bird.update();
     fg.update();
+    pipes.update();
 
 }
 
