@@ -1,9 +1,11 @@
+
 //SELECT CVS
 const cvs = document.getElementById("bird");
 const ctx = cvs.getContext("2d");
 
 //Game VARS AND CONSTS
 let frames = 0;
+const DEGREE = Math.PI/180;
 
 //LOAD SPRITE IMAGE
 const sprite = new Image();
@@ -64,13 +66,20 @@ const bird = {
 
     frame: 0,
 
-    gravity : 0.25,
-    jump: 4.6,
+    gravity : 0.1, // changes
+    jump: 4.6, 
     speed: 0,
+    rotation: 0,
 
     draw: function (){
         let bird = this.animation[this.frame];
-        ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
+
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h,- this.w/2,- this.h/2, this.w, this.h);
+
+        ctx.restore();
 
     },
 
@@ -88,6 +97,7 @@ const bird = {
 
         if(state.current == state.getReady){
             this.y = 150;
+            this.rotation = 0*DEGREE;
 
         }else{
             this.speed += this.gravity;
@@ -98,6 +108,14 @@ const bird = {
                 if(state.current == state.game){
                     state.current = state.over;
                 }
+            }
+
+            //If the speed is grater than the jump, the bird is falling down
+            if(this.speed >= this.jump){
+                this.rotation = 90*DEGREE;
+                this.frame = 1;
+            }else{
+                this.rotation = -25*DEGREE;
             }
         }
 
@@ -116,10 +134,18 @@ const fg = {
     x: 0, 
     y: cvs.height -112,
 
+    dx: 2,
+
     draw: function (){
         ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
 
         ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x + this.w, this.y, this.w, this.h);
+
+    },
+    update: function(){
+        if(state.current == state.game){
+            this.x = (this.x - this.dx)%(this.w/2);
+        }
 
     }
 }
@@ -176,6 +202,7 @@ function draw(){
 //UPDATE
 function update(){
     bird.update();
+    fg.update();
 
 }
 
