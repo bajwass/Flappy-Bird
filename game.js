@@ -11,6 +11,22 @@ const DEGREE = Math.PI/180;
 const sprite = new Image();
 sprite.src = "img/sprite.png"
 
+//LOAD SOUNDS
+const score_s = new Audio();
+score_s.src = "audio/sfx_point.wav";
+
+const flap = new Audio();
+flap.src = "audio/sfx_flap.wav";
+
+const hit = new Audio();
+hit.src = "audio/sfx_hit.wav";
+
+const swooshing = new Audio();
+swooshing.src = "audio/sfx_swooshing.wav";
+
+const death = new Audio();
+death.src = "audio/sfx_die.wav";
+
 //START BUTTON
 const startbtn ={
     x: 120,
@@ -30,9 +46,11 @@ cvs.addEventListener("click", function(evt) {
     switch(state.current){
         case state.getReady:
             state.current = state.game;
+            swooshing.play();
             break;
         case state.game:
             bird.flap();
+            flap.play();
             break;
         case state.over:
             let rect = cvs.getBoundingClientRect();
@@ -123,10 +141,12 @@ const pipes ={
             //TOP PIPE
             if(bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + this.w && bird.y + bird.radius > p.y && bird.y - bird.radius < p.y + this.h){
                 state.current = state.over;
+                hit.play();
             } 
             //BOTTOM PIPE
             if(bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + this.w && bird.y + bird.radius > bottomPipeYPos && bird.y - bird.radius < bottomPipeYPos + this.h){
                 state.current = state.over;
+                hit.play();
             }
             // Move pipes to the left
             p.x -= this.dx;
@@ -135,6 +155,7 @@ const pipes ={
             if(p.x + this.w <=0){
                 this.position.shift();
                 score.value +=1;
+                score_s.play();
 
                 score.best = Math.max(score.value, score.best);
                 localStorage.setItem("best", score.best);
@@ -204,6 +225,7 @@ const bird = {
                 this.y = cvs.height - fg.h - this.h/2;
                 if(state.current == state.game){
                     state.current = state.over;
+                    death.play();
                 }
             }
 
