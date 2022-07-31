@@ -16,7 +16,7 @@ const state = {
     game: 1,
     over: 2
 }
-document.addEventListener("click", function(evt) {
+cvs.addEventListener("click", function(evt) {
     switch(state.current){
         case state.getReady:
             state.current = state.game;
