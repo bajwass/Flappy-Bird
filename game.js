@@ -43,7 +43,7 @@ const bird = {
 
     draw: function (){
         let bird = this.animation[this.frame];
-        ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+        ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
 
     }
 
@@ -68,6 +68,22 @@ const fg = {
     }
 }
 
+//GET READY MESSAGE
+    const getReady = {
+        sX: 0,
+        sY: 228,
+        w: 173,
+        h: 152,
+        x: cvs.width/2 - 173/2,
+        y: 80,
+
+        draw: function (){
+            ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+    
+    
+        }
+    }
+
 //DRAW
 function draw(){
     ctx.fillStyle="#70c5ce";
@@ -76,6 +92,7 @@ function draw(){
     bg.draw();
     fg.draw();
     bird.draw();
+    getReady.draw();
 
 }
 
