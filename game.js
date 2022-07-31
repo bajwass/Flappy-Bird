@@ -9,6 +9,29 @@ let frames = 0;
 const sprite = new Image();
 sprite.src = "img/sprite.png"
 
+//CONTROL GAME
+const state = {
+    current: 0,
+    getReady: 1,
+    game: 1,
+    over: 2
+}
+document.addEventListener("click", function(evt) {
+    switch(state.current){
+        case state.getReady:
+            state.current = state.game;
+            break;
+        case state.game:
+            bird.flap();
+            break;
+        case state.over:
+            state.current = state.getReady;
+            break;
+    }
+});
+   
+
+
 //BACKGROUND
 const bg = {
     sX: 0,
