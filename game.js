@@ -72,6 +72,15 @@ const bird = {
 
     flap : function(){
 
+    },
+    update : function(){
+        //If the game state is ready, then the birds wings must flap slowly
+        this.period = state.current == state.getReady ? 10 : 5;
+        //We increment the frame by 1, each period
+        this.frame += frames%this.period == 0 ? 1:0;
+        //Frame goes from 0 to 4, the back to 0 again
+        this.frame = this.frame%this.animation.length;
+
     }
 
 
@@ -146,6 +155,7 @@ function draw(){
 
 //UPDATE
 function update(){
+    bird.update();
 
 }
 
