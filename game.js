@@ -103,7 +103,7 @@ const pipes ={
 
     w: 53,
     h: 400,
-    gap: 85,
+    gap: 90,
     maxYPos: -150,
     dx: 2,
 
@@ -184,8 +184,8 @@ const bird = {
 
     frame: 0,
 
-    gravity : 0.1, // changes
-    jump: 4, 
+    gravity : 0.03, // changes
+    jump: 1.75, 
     speed: 0,
     rotation: 0,
 
