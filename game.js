@@ -68,6 +68,10 @@ const bird = {
         let bird = this.animation[this.frame];
         ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
 
+    },
+
+    flap : function(){
+
     }
 
 
@@ -101,7 +105,9 @@ const fg = {
         y: 80,
 
         draw: function (){
-            ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+            if(state.current == state.getReady) {
+                ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+            }
     
     
         }
@@ -117,7 +123,9 @@ const gameOver = {
     y: 90,
 
     draw: function (){
-        ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+        if(state.current == state.over){
+            ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
+        }
 
 
     }
