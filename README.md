@@ -7,3 +7,5 @@ It was built using the following:
   - HTML
   - User's top score is also stored in Local Storage
 
+It was deployed using Netlify.
+
